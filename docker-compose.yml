@@ -1,0 +1,23 @@
+version: '3'
+services:
+    postgres:
+        image: 'postgres:latest'
+        environment:
+             - POSTGRES_PASSWORD=postgres_password # Set password
+    redis:
+        image: 'redis:latest'
+    server:
+        build:
+            context: ./server
+            dockerfile: Dockerfile.dev
+        volumes:
+            - /app/node_modules # Leave this folder as-is
+            - ./server:/app     # Symlink everything else in /app to our ./server
+        environment:
+            - REDIS_HOST = redis # Uses the 'redis' service defined above
+            - REDIS_PORT = 6379 # Default port for redis
+            - PGUSER = postgres # Default PG user
+            - PGHOST = postgres # Default PG host
+            - PGDATABASE = postgres # Default PG db
+            - PGPASSWORD = postgres_password # Same as the password defined for 'postgres' service
+            - PGPORT = 5432 #Default PG port
