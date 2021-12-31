@@ -3,22 +3,22 @@ services:
     - docker
 
 before_install:
-    - docker build -t stromner/FibonacciMultiDocker-test -f ./client/Dockerfile.dev ./client
+    - docker build -t stromner/fibonacci-multi-docker-test -f ./client/Dockerfile.dev ./client
 
 script:
-    - docker run -e CI=true stromner/FibonacciMultiDocker-test npm test -- --coverage
+    - docker run -e CI=true stromner/fibonacci-multi-docker-test npm test -- --coverage
 
 after_success:
-    - docker build -t stromner/FibonacciMultiDocker-client ./client
-    - docker build -t stromner/FibonacciMultiDocker-nginx ./nginx
-    - docker build -t stromner/FibonacciMultiDocker-server ./server
-    - docker build -t stromner/FibonacciMultiDocker-worker ./worker
+    - docker build -t stromner/fibonacci-multi-docker-client ./client
+    - docker build -t stromner/fibonacci-multi-docker-nginx ./nginx
+    - docker build -t stromner/fibonacci-multi-docker-server ./server
+    - docker build -t stromner/fibonacci-multi-docker-worker ./worker
     
     # Login to DockerHub
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
     # Push built images above to DockerHub
-    - docker push stromner/FibonacciMultiDocker-client
-    - docker push stromner/FibonacciMultiDocker-nginx
-    - docker push stromner/FibonacciMultiDocker-server
-    - docker push stromner/FibonacciMultiDocker-worker
+    - docker push stromner/fibonacci-multi-docker-client
+    - docker push stromner/fibonacci-multi-docker-nginx
+    - docker push stromner/fibonacci-multi-docker-server
+    - docker push stromner/fibonacci-multi-docker-worker
